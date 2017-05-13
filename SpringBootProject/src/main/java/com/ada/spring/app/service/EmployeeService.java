@@ -12,4 +12,6 @@ public interface EmployeeService {
 
     public Employee saveEmployee(Employee employee);
 
+    public List<Employee> getAllEmployeeByDepartment(String deptName);
+
 }

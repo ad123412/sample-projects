@@ -1,8 +1,9 @@
 package com.ada.spring.app.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Created by ADA on 5/13/2017.
@@ -14,16 +15,18 @@ public class Department implements Serializable{
     private static final long serialVersionUID= 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String deptName;
 
     @OneToMany( cascade = CascadeType.ALL,
                 fetch = FetchType.EAGER,
-                mappedBy = "department"
+                mappedBy = "department",
+                targetEntity = Employee.class
               )
-    private List<Employee> employees;
+    @JsonBackReference
+    private Collection<Employee> employees;
 
     public Department(String deptName) {
         this.deptName = deptName;
@@ -56,11 +59,11 @@ public class Department implements Serializable{
                 '}';
     }
 
-    public List<Employee> getEmployees() {
+    public Collection<Employee> getEmployees() {
         return employees;
     }
 
-    public void setEmployees(List<Employee> employees) {
+    public void setEmployees(Collection<Employee> employees) {
         this.employees = employees;
     }
 }

@@ -1,5 +1,6 @@
 package com.ada.spring.app.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -13,12 +14,15 @@ public class Employee implements Serializable{
     private static final long serialVersionUID= 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String firstName;
     private String lastName;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(optional = false, targetEntity = Department.class ,
+            fetch = FetchType.EAGER , cascade = CascadeType.ALL)
+    @JoinColumn(name = "department",referencedColumnName = "id")
+    //@JsonBackReference
     private Department department;
 
     public Employee() {
